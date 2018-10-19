@@ -8,8 +8,8 @@ public class DefaultStartRepository implements StartRepository {
 
   private StartDao dao;
 
-  public DefaultStartRepository() {
-
+  public DefaultStartRepository(StartDao dao) {
+    this.dao = dao;
   }
 
   @Override public void insert() {

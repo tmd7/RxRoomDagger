@@ -2,6 +2,8 @@ package com.mtlepberghenov.rxroomdagger;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import com.mtlepberghenov.rxroomdagger.storage.dao.StartDao;
+import com.mtlepberghenov.rxroomdagger.storage.dao.impl.DefaultStartDao;
 import com.mtlepberghenov.rxroomdagger.ui.StartNativeView;
 import com.mtlepberghenov.rxroomdagger.ui.StartPresenter;
 import com.mtlepberghenov.rxroomdagger.ui.StartRepository;
@@ -22,7 +24,8 @@ public class StartActivity extends AppCompatActivity {
     final DefaultStartView view = new DefaultStartView();
     nativeView = view;
     final StartWireframe wireframe = new DefaultStartWireframe(this);
-    final StartRepository repository = new DefaultStartRepository();
+    final StartDao dao = new DefaultStartDao();
+    final StartRepository repository = new DefaultStartRepository(dao);
     presenter = new DefaultStartPresenter(view, repository, wireframe);
     setContentView(nativeView.getLayout());
   }
