@@ -4,8 +4,6 @@ import android.arch.persistence.room.Room;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import com.mtlepberghenov.rxroomdagger.storage.DefaultAppDataBase;
-import com.mtlepberghenov.rxroomdagger.storage.dao.StartDao;
-import com.mtlepberghenov.rxroomdagger.storage.dao.impl.DefaultStartDao;
 import com.mtlepberghenov.rxroomdagger.ui.DefaultStartAdapter;
 import com.mtlepberghenov.rxroomdagger.ui.StartNativeView;
 import com.mtlepberghenov.rxroomdagger.ui.StartPresenter;
@@ -15,7 +13,6 @@ import com.mtlepberghenov.rxroomdagger.ui.impl.DefaultStartPresenter;
 import com.mtlepberghenov.rxroomdagger.ui.impl.DefaultStartRepository;
 import com.mtlepberghenov.rxroomdagger.ui.impl.DefaultStartView;
 import com.mtlepberghenov.rxroomdagger.ui.impl.DefaultStartWireframe;
-import timber.log.Timber;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -32,8 +29,7 @@ public class StartActivity extends AppCompatActivity {
     final DefaultAppDataBase appDb = Room
         .databaseBuilder(getApplicationContext(), DefaultAppDataBase.class, "main")
         .build();
-    final StartDao dao = new DefaultStartDao(appDb);
-    final StartRepository repository = new DefaultStartRepository(dao);
+    final StartRepository repository = new DefaultStartRepository(appDb);
     presenter = new DefaultStartPresenter(view, repository, wireframe);
     setContentView(nativeView.getLayout());
   }

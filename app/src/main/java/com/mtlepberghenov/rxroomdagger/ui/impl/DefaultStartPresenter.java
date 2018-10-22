@@ -5,11 +5,16 @@ import com.mtlepberghenov.rxroomdagger.ui.StartPresenter;
 import com.mtlepberghenov.rxroomdagger.ui.StartRepository;
 import com.mtlepberghenov.rxroomdagger.ui.StartView;
 import com.mtlepberghenov.rxroomdagger.ui.StartWireframe;
+import io.reactivex.Completable;
+import io.reactivex.CompletableObserver;
 import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import java.util.List;
+import timber.log.Timber;
 
 public class DefaultStartPresenter implements StartPresenter {
   private StartView view;
@@ -27,16 +32,30 @@ public class DefaultStartPresenter implements StartPresenter {
     view.setOnStartOnclickHandler(this);
     repository.get()
         .observeOn(AndroidSchedulers.mainThread())
-        .subscribeOn(Schedulers.computation())
         .subscribe(users -> {
           view.updateView(users);
         });
   }
 
   @Override public void onStartClicked(User u) {
-    repository.insert(u)
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribeOn(Schedulers.computation())
-        .subscribe();
+    Completable.fromAction(new Action() {
+      @Override public void run() throws Exception {
+        repository.insert(u);
+      }
+    }).observeOn(AndroidSchedulers.mainThread())
+        .subscribeOn(Schedulers.io())
+        .subscribe(new CompletableObserver() {
+          @Override public void onSubscribe(Disposable d) {
+
+          }
+
+          @Override public void onComplete() {
+            Timber.d("done");
+          }
+
+          @Override public void onError(Throwable e) {
+
+          }
+        });
   }
 }
