@@ -1,3 +1,4 @@
 <resources>
   <string name="app_name">RxRoomDagger</string>
+  <string name="item_text">Id: %s, Surname: %s, Name: %s</string>
 </resources>

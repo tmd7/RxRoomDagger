@@ -1,10 +1,10 @@
 package com.mtlepberghenov.rxroomdagger.ui;
 
-import android.app.Activity;
+import com.mtlepberghenov.rxroomdagger.StartActivity;
 
 public interface StartNativeView {
 
   int getLayout();
 
-  void initView(Activity activity);
+  void initView(StartActivity activity);
 }
