@@ -7,13 +7,10 @@ import com.mtlepberghenov.rxroomdagger.ui.StartView;
 import com.mtlepberghenov.rxroomdagger.ui.StartWireframe;
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-import java.util.List;
 import timber.log.Timber;
 
 public class DefaultStartPresenter implements StartPresenter {
@@ -42,20 +39,20 @@ public class DefaultStartPresenter implements StartPresenter {
       @Override public void run() throws Exception {
         repository.insert(u);
       }
-    }).observeOn(AndroidSchedulers.mainThread())
-        .subscribeOn(Schedulers.io())
-        .subscribe(new CompletableObserver() {
-          @Override public void onSubscribe(Disposable d) {
+    }).subscribeOn(Schedulers.io())
+      .observeOn(AndroidSchedulers.mainThread())
+      .subscribe(new CompletableObserver() {
+        @Override public void onSubscribe(Disposable d) {
 
-          }
+        }
 
-          @Override public void onComplete() {
-            Timber.d("done");
-          }
+        @Override public void onComplete() {
+          Timber.d("done");
+        }
 
-          @Override public void onError(Throwable e) {
+        @Override public void onError(Throwable e) {
 
-          }
-        });
+        }
+      });
   }
 }
